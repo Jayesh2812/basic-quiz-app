@@ -1,0 +1,95 @@
+.quiz-layout{
+    display: grid;
+    place-content: center;
+    color: #dff9fb;
+    min-width: 55rem;
+}
+.quiz-nav{
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+.question-card{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'qno options'
+    'question options'
+    '. options'
+    '. btn';
+    gap: 1em 3em;
+    padding: 3em 5em;
+    border-radius: 10px;
+    background-color: #30336b;
+
+}
+.question-number{
+    grid-area: qno;
+    font-weight: 400;
+}
+.question-number span{
+    font-size: 2rem;
+    font-weight: 700;
+}
+.question-text{
+    grid-area: question;
+    font-weight: 400;
+}
+.options{
+    grid-area: options;
+    list-style: none;
+}
+.option{
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    cursor: pointer;
+    transition: 250ms ease transform;
+    padding-left: 1em;
+    margin-block: 1em;
+    border-radius: 5px;
+    border: 2px solid #dff9fb;
+    
+}
+.option label{
+    padding: 1em ;
+    cursor: pointer;
+    width: 100%;
+}
+.option:hover{
+    transform: scale(1.09);
+}
+.save-btn{
+    grid-area: btn;
+}
+.btn{
+    border: 0;
+    background-color: #dff9fb;
+    border-radius: 5px;
+    cursor: pointer;
+    padding-block: 1em;
+    font-weight: 800;
+    color: #30336b;
+    transition: 250ms ease transform;
+    font-size: 1rem;
+    padding-inline: 2em
+
+}
+.btn:not(:disabled):hover{
+    opacity: 0.7;
+    
+}
+.btn:disabled{
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.start-again-btn{
+}
+.score-card{
+    text-align: center;
+}
+.score-text{
+    font-weight: 400;
+    margin-bottom: 1em;
+}
