@@ -115,3 +115,21 @@
     color: #30336b;
 
 }
+
+@media screen and (max-width: 450px) {
+    .question-card{
+        grid-template-columns: 1fr 1fr;
+        max-width: 90vw;
+        min-width: 90vw;
+        padding: 1em;
+        grid-template-areas: 
+        'qno qno'
+        'question question'
+        'options options'
+        'prev-btn next-btn'
+        'submit-btn submit-btn';
+    }
+    .quiz-layout{
+        padding-block: 1em;
+    }
+}
