@@ -2,7 +2,6 @@
     display: grid;
     place-content: center;
     color: #dff9fb;
-    min-width: 55rem;
 }
 .quiz-nav{
     display: flex;
@@ -12,12 +11,15 @@
 }
 .question-card{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 2fr;
     grid-template-areas: 
-    'qno options'
-    'question options'
-    '. options'
-    '. btn';
+    'qno qno options'
+    'question question options'
+    'prev-btn next-btn options'
+    'submit-btn submit-btn options';
+    
+    min-width: 55rem;
+    max-width: 55rem;
     gap: 1em 3em;
     padding: 3em 5em;
     border-radius: 10px;
@@ -60,8 +62,14 @@
 .option:hover{
     transform: scale(1.09);
 }
-.save-btn{
-    grid-area: btn;
+.prev-btn{
+    grid-area: prev-btn;
+}
+.submit-btn{
+    grid-area: submit-btn;
+}
+.next-btn{
+    grid-area: next-btn;
 }
 .btn{
     border: 0;
@@ -71,7 +79,7 @@
     padding-block: 1em;
     font-weight: 800;
     color: #30336b;
-    transition: 250ms ease transform;
+    transition: 250ms ease;
     font-size: 1rem;
     padding-inline: 2em
 
@@ -84,12 +92,26 @@
     cursor: not-allowed;
     opacity: 0.5;
 }
-.start-again-btn{
-}
 .score-card{
     text-align: center;
 }
 .score-text{
     font-weight: 400;
     margin-bottom: 1em;
+}
+.nav-btn{
+    font-size: .8rem;
+    border: 2px solid #dff9fb;
+    transform: scale(0.9);
+}
+.nav-btn.active{
+    color: white;
+    background: transparent;
+    transform: scale(1.1);
+}
+.btn.answered{
+    background-color: #badc58;
+    border: 2px solid #badc58;
+    color: #30336b;
+
 }

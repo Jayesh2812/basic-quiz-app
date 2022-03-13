@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useQuizHandler from "../utils/useQuizHandler";
 import "../styles/QuizLayout.css";
 
@@ -12,7 +12,7 @@ export default function QuizLayout() {
         <div className="quiz-layout">
             {!showScoreCard ? (
                 <>
-                    {/* <QuizNav /> */}
+                    <QuizNav />
                     <QuizCard />
                 </>
 
@@ -25,18 +25,7 @@ export default function QuizLayout() {
 
 
 function QuizCard() {
-    const { dispatch, questions, state: { currentQuestion } } = useQuizHandler()
-    const [selectedAnswer, setSelectedAnswer] = useState();
-   
-    function handleAnswerSubmit(e) {
-        dispatch({
-            type: "SAVE_ANSWER_AND_INC_Q",
-            payload: {
-                answer: selectedAnswer
-            }
-        })
-        setSelectedAnswer(null);
-    }
+    const { dispatch, questions, state: { currentQuestion, answers } } = useQuizHandler()
     return (
         <div className="question-card">
             <h2 className="question-number">
@@ -54,20 +43,35 @@ function QuizCard() {
                         key={index}
                         answer={answer}
                         checked={
-                            answer.answerText ===
-                            selectedAnswer?.answerText
+                            answers[currentQuestion]?.answerText === answer.answerText
                         }
-                        onChange={setSelectedAnswer}
+                        onChange={answer => dispatch({ type: "SAVE_ANSWER", payload: { answer } })}
                     />
                 ))}
             </ol>
 
             <button
-                className="save-btn btn"
-                disabled={!selectedAnswer}
-                onClick={handleAnswerSubmit}
+                className="prev-btn btn"
+                disabled={currentQuestion === 0}
+                onClick={e => dispatch({ type: 'DEC_Q' })}
             >
-                Save And Next
+                Previous
+            </button>
+            <button
+                className="next-btn btn"
+                onClick={e => dispatch({ type: 'INC_Q' })}
+            >
+                Next
+            </button>
+            <button
+                className="submit-btn btn"
+                onClick={e => {
+                    if (window.confirm("Are you sure?"))
+                        dispatch({ type: "SUBMIT" })
+                }
+                }
+            >
+                Submit
             </button>
         </div>
     )
@@ -111,15 +115,20 @@ function ScoreCard() {
 }
 
 function QuizNav() {
-    const { questions, dispatch } = useQuizHandler()
+    const { questions, dispatch, state: { answers, currentQuestion } } = useQuizHandler()
     const handleClick = currentQuestion => {
         dispatch({ type: "SET_Q", payload: { currentQuestion } })
     }
     return (
         <div className="quiz-nav">
-            {questions.map((question, index) => (
-                <button className={'btn'} key={index} onClick={e => handleClick(index)}>{index + 1}</button>
-            ))}
+            {questions.map((question, index) => {
+                let classes = ['nav-btn', 'btn']
+                if (index === currentQuestion) classes.push('active')
+                if (answers[index]) classes.push('answered')
+                return (
+                    <button className={classes.join(' ')} key={index} onClick={e => handleClick(index)}>{index + 1}</button>
+                )
+            })}
         </div>
     )
 }
