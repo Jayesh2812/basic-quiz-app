@@ -1,7 +1,14 @@
 import React, { createContext, useContext, useReducer } from 'react'
-import { quizReducer, initialState } from './quizHandlerReducer'
+import { quizReducer, initialState, initialStateInterface } from './quizHandlerReducer'
 import questions from './questions'
-const QuizHandlerContext = createContext()
+
+interface QuizHandlerContextInterface  {
+    questions: typeof questions,
+    state: initialStateInterface,
+    dispatch: React.Dispatch<any>
+
+}
+const QuizHandlerContext = createContext<QuizHandlerContextInterface>({} as QuizHandlerContextInterface)
 
 function useQuizHandler() {
     return (
@@ -9,7 +16,7 @@ function useQuizHandler() {
     )
 }
 
-export function QuizHandlerContextProvider({children}) {
+export const QuizHandlerContextProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducer(quizReducer, initialState)
     return (
         <QuizHandlerContext.Provider value={{questions, dispatch, state}}>

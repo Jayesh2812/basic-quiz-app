@@ -1,6 +1,18 @@
 import questions from "./questions";
-const scorePerQuestion = 10;
-export const initialState = {
+const scorePerQuestion: number = 10;
+export interface AnswerInterface {
+    answerText: string;
+    isCorrect: boolean;
+}
+export interface initialStateInterface {
+    currentQuestion: number;
+    score: number;
+    answers: { [key: number]: AnswerInterface };
+    showScoreCard: boolean;
+    maxScore: number;
+}
+
+export const initialState: initialStateInterface = {
     currentQuestion: 0,
     score: 0,
     answers: {},
@@ -8,7 +20,17 @@ export const initialState = {
     maxScore: questions.length * scorePerQuestion,
 };
 
-export function quizReducer(state, { type, payload = {} }) {
+interface payloadType {
+    currentQuestion: number;
+}
+interface payloadType {
+    answer: AnswerInterface;
+}
+
+export function quizReducer(
+    state: initialStateInterface,
+    { type, payload }: { type: string; payload: payloadType }
+) {
     switch (type) {
         case "SET_Q": {
             const { currentQuestion } = payload;
@@ -56,15 +78,15 @@ export function quizReducer(state, { type, payload = {} }) {
             return { ...state, showScoreCard: true, score };
         }
         case "RESET": {
-            return { ...initialState , answers : {}};
+            return { ...initialState, answers: {} };
         }
         default:
             return state;
     }
 }
 
-function calculateScore(answers) {
+function calculateScore(answers: AnswerInterface[]) {
     return answers.reduce((totalScore, answer) => {
-        return totalScore + answer.isCorrect * scorePerQuestion;
+        return totalScore + Number(answer.isCorrect) * scorePerQuestion;
     }, 0);
 }
